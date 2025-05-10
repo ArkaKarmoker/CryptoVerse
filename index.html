@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoVerse - Professional Trading Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Login/Register Container -->
+    <div id="authContainer" class="auth-container">
+        <div class="auth-card" id="loginCard">
+            <img src="logo.png" alt="CryptoVerse Logo" class="auth-logo">
+            <h2>Login to CryptoVerse</h2>
+            <div class="mb-3">
+                <label class="form-label fw-medium">Username</label>
+                <input type="text" class="form-control" id="loginUsername" placeholder="Enter username">
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-medium">Password</label>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Enter password">
+            </div>
+            <button class="btn btn-primary" id="loginBtn">Login</button>
+            <div class="auth-toggle">
+                <p>Don't have an account? <a href="#" id="showRegister">Register</a></p>
+            </div>
+        </div>
+
+        <div class="auth-card hidden" id="registerCard">
+            <img src="https://www.vhv.rs/dpng/d/527-5279511_crypto-coin-cryptocurrency-icon-png-transparent-png.png" alt="CryptoVerse Logo" class="auth-logo">
+            <h2>Register for CryptoVerse</h2>
+            <div class="mb-3">
+                <label class="form-label fw-medium">Username</label>
+                <input type="text" class="form-control" id="registerUsername" placeholder="Choose a username">
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-medium">Password</label>
+                <input type="password" class="form-control" id="registerPassword" placeholder="Choose a password">
+            </div>
+            <button class="btn btn-success" id="registerBtn">Register</button>
+            <div class="auth-toggle">
+                <p>Already have an account? <a href="#" id="showLogin">Login</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content (Hidden Initially) -->
+    <div id="mainContent" class="hidden">
+        <main>
+            <nav class="navbar navbar-expand-lg fixed-top">
+                <div class="container-fluid px-4">
+                    <a class="navbar-brand" href="#">
+                        <img src="logo.png" alt="CryptoVerse Logo">
+                        CryptoVerse
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#navbarNav" aria-controls="navbarNav" 
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Market</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Portfolio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Trade</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">News</a>
+                            </li>
+                        </ul>
+                        <div class="d-flex align-items-center gap-3">
+                            <span class="wallet-info" id="walletBalance">
+                                <i class="fas fa-wallet"></i> $100,000.00
+                            </span>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" 
+                                        type="button" data-bs-toggle="dropdown" 
+                                        aria-expanded="false">
+                                    <i class="fas fa-wallet me-2"></i> Wallet
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#" id="addMoneyBtn">Add Money</a></li>
+                                    <li><a class="dropdown-item" href="#" id="withdrawMoneyBtn">Withdraw Money</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle" 
+                                        type="button" data-bs-toggle="dropdown" 
+                                        aria-expanded="false">
+                                    <i class="fas fa-user me-2"></i> Profile
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">Account</a></li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container-fluid mt-5 pt-5">
+                <div class="row g-4 px-3">
+                    <div class="col-lg-8">
+                        <div class="card market-table">
+                            <div class="market-header">
+                                <h2 class="mb-0">Market Overview</h2>
+                                <small class="text-muted">Real-time cryptocurrency prices</small>
+                            </div>
+                            <div class="table-responsive p-3">
+                                <table id="marketTable" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Coin</th>
+                                            <th>Price (USD)</th>
+                                            <th>24h Change</th>
+                                            <th>Market Cap</th>
+                                            <th>Volume (24h)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="marketList"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="market-header">
+                                <h3 class="mb-0">Trade History</h3>
+                            </div>
+                            <div class="trade-history p-3" id="tradeHistory"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="card trade-container mb-4">
+                            <h3 class="mb-4">Trade Cryptocurrency</h3>
+                            <div class="mb-3">
+                                <label class="form-label fw-medium">Select Coin</label>
+                                <select class="form-select" id="tradeCoin">
+                                    <!-- Populated dynamically -->
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-medium">Current Price</label>
+                                <input type="text" class="form-control" id="currentPrice" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-medium">Amount</label>
+                                <input type="number" class="form-control" id="tradeAmount" 
+                                       min="0" step="0.0001" placeholder="Enter amount">
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label fw-medium">Total (USD)</label>
+                                <input type="text" class="form-control" id="totalCost" readonly>
+                            </div>
+                            <div class="d-flex gap-3">
+                                <button class="btn btn-success btn-trade flex-grow-1" id="buyBtn">
+                                    <i class="fas fa-arrow-up me-2"></i> Buy
+                                </button>
+                                <button class="btn btn-danger btn-trade flex-grow-1" id="sellBtn">
+                                    <i class="fas fa-arrow-down me-2"></i> Sell
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="market-header">
+                                <h3 class="mb-0">Your Portfolio</h3>
+                            </div>
+                            <div class="p-3" id="portfolioList"></div>
+                            <div class="p-3 border-top">
+                                <div class="d-flex justify-content-between fw-bold">
+                                    <span>Total Value:</span>
+                                    <span id="portfolioValue">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-container">
+                <div class="footer-row">
+                    <div class="footer-col">
+                        <h4>CryptoVerse</h4>
+                        <p>Your gateway to cryptocurrency trading. Stay ahead with real-time market data and secure transactions.</p>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Market</a></li>
+                            <li><a href="#">Trade</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Contact Us</h4>
+                        <ul>
+                            <li>Email: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d2b7b1b4b4a9b4b992b1a0abb4b3a9b0a3b4a5b4fc">[email&#160;protected]</a></li>
+                            <li>Phone: +1 (555) 123-4567</li>
+                            <li>Address: 123 Crypto St, Blockchain City</li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Follow Us</h4>
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="#"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    © 2025 CryptoVerse. All Rights Reserved.<br>Developed by <a href="https://github.com/ArkaKarmoker">Arka Karmoker</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
