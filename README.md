@@ -46,7 +46,7 @@ CryptoVerse is a modern, web-based cryptocurrency trading platform designed to p
    ```bash
    cd CryptoVerse
    ```
-3. Open `CryptoVerse (3).html` in a web browser:
+3. Open `CryptoVerse.html` in a web browser:
    - You can double-click the file or serve it using a local server (e.g., `python -m http.server` for Python 3.x).
 
 ### Usage
